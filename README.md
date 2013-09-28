@@ -196,3 +196,19 @@ port_forwardings.create({
 ```ruby
 port_forwardings.destroy(3)
 ```
+
+UPnP IGD
+--------
+
+### Get the list of current redirection
+
+```ruby
+upnp_redir = FreeboxApi::Resources::UPnPRedir.new(mySession)
+upnp_redir.index
+```
+
+### Delete a redirection
+
+```ruby
+upnp_redir.destroy('0.0.0.0-53644-udp')
+```
