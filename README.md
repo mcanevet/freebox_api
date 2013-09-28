@@ -101,5 +101,53 @@ lan_hosts.index
 ### Getting an host information
 
 ```ruby
-lan_hosts.show('00:01:23:45:67:89')
+lan_hosts.show('ether-00:24:d4:7e:00:4c')
+```
+
+### Updating an host information
+
+```ruby
+lan_hosts.update({
+  :id           => 'ether-00:24:d4:7e:00:4c',
+  :primary_name => 'Freebox Tv',
+})
+```
+
+DHCP
+----
+
+### Get the list of DHCP static leases
+
+```ruby
+static_leases = FreeboxApi::Resources::StaticLease.new(mySession)
+static_leases.index
+```
+
+### Get a given DHCP static lease
+
+```ruby
+static_leases.show('00:DE:AD:B0:0B:55)
+```
+
+### Update DHCP static lease
+
+```ruby
+static_leases.update({
+  :id      => '00:DE:AD:B0:0B:55',
+  :comment => 'Mon PC',
+})
+```
+
+### Delete a DHCP static lease
+
+```ruby
+static_lease.destroy('00:DE:AD:B0:0B:55')
+```
+
+### Add a DHCP static lease
+```ruby
+static_lease.create({
+  :ip  => '192.168.1.222',
+  :mac => '00:00:00:11:11:11',
+})
 ```
