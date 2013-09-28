@@ -151,3 +151,48 @@ static_lease.create({
   :mac => '00:00:00:11:11:11',
 })
 ```
+
+Port Forwarding
+---------------
+
+### Getting the list of port forwarding
+
+```ruby
+port_forwardings = FreeboxApi::Resources::PortForwarding.new(mySession)
+port_forwardings.index
+```
+
+### Getting a specific port forwarding
+
+```ruby
+port_forwardings.show(1)
+```
+
+### Updating a port forwarding
+
+```ruby
+port_forwardings.update({
+  :id      => 1,
+  :enabled => false,
+})
+```
+
+### Add a port forwarding
+
+```ruby
+port_forwardings.create({
+  :enabled        => true,
+  :comment        => 'test',
+  :lan_port       => 4242,
+  :wan_port_end   => 4242,
+  :wan_port_start => 4242,
+  :lan_ip         => '192.168.1.42',
+  :ip_proto       => 'tcp',
+})
+```
+
+### Delete a port forwarding
+
+```ruby
+port_forwardings.destroy(3)
+```
