@@ -514,10 +514,20 @@ config.update('afp', {
 #### UPnP AV config API
 
 ##### Get the current UPnP AV configuration
-[ ] GET /api/v1/upnpav/config/
+[X] GET /api/v1/upnpav/config/
+
+```ruby
+config.show('upnpav')
+```
 
 ##### Update the UPnP AV configuration
-[ ] PUT /api/v1/upnpav/config/
+[X] PUT /api/v1/upnpav/config/
+
+```ruby
+config.update('upnpav', {
+  :enabled => false,
+})
+```
 
 ### Switch
 
@@ -545,10 +555,22 @@ config.update('afp', {
 #### Wi-Fi config API
 
 ##### Get the current Wi-Fi configuration
-[ ] GET /api/v1/wifi/config/
+[X] GET /api/v1/wifi/config/
+
+```ruby
+config.show('wifi')
+```
 
 ##### Update the Wi-Fi configuration
-[ ] PUT /api/v1/wifi/config/
+[X] PUT /api/v1/wifi/config/
+
+```ruby
+config.update('wifi', {
+  :ap_params => {
+    :ht_mode => 'disabled',
+  }
+})
+```
 
 ##### Reset the Wi-Fi configuration
 [ ] POST /api/v1/wifi/config/reset/
