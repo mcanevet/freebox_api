@@ -118,11 +118,30 @@ connection.config = {
 
 #### Connection IPv6 configuration
 
+```ruby
+ipv6 = FreeboxApi::Services::IPv6.new(mySession)
+```
+
 ##### Get the current IPv6 Connection configuration
-[ ] GET /api/v1/connection/ipv6/config/
+[X] GET /api/v1/connection/ipv6/config/
+
+```ruby
+ipv6.config
+```
 
 ##### Update the IPv6 Connection configuration
-[ ] PUT /api/v1/connection/ipv6/config/
+[X] PUT /api/v1/connection/ipv6/config/
+
+```ruby
+ipv6.config = {
+  :delegations => [
+    {
+     :prefix   => '2a01:e30:d252:a2a2::/64',
+     :next_hop => 'fe80::be30:5bff:feb5:fcc7',
+    }
+  ]
+}
+```
 
 #### Connection DynDNS status
 
