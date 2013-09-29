@@ -79,20 +79,16 @@ mysession = FreeboxApi::Session.new({
 Reference
 ---------
 
-### Connection API
-
 ```ruby
-connection = FreeboxApi::Services::Connection.new(mySession)
+config = FreeboxApi::Config.new(mySession)
 ```
+
+### Connection API
 
 #### Connection status
 
 ##### Get the current Connection status
-[X] GET /api/v1/connection/
-
-```ruby
-connection.status
-```
+[ ] GET /api/v1/connection/
 
 #### Connection configuration
 
@@ -100,58 +96,46 @@ connection.status
 [X] GET /api/v1/connection/config/
 
 ```ruby
-connection.config
+config.show('connection')
 ```
 
 ##### Update the Connection configuration
 [X] PUT /api/v1/connection/config/
 
 ```ruby
-connection.config = {
+config.update('connection', {
   :ping => true,
   :wol  => false,
-}
+})
 ```
 
 #### Connection IPv6 configuration
-
-```ruby
-ipv6 = FreeboxApi::Services::IPv6.new(mySession)
-```
 
 ##### Get the current IPv6 Connection configuration
 [X] GET /api/v1/connection/ipv6/config/
 
 ```ruby
-ipv6.config
+config.show('ipv6')
 ```
 
 ##### Update the IPv6 Connection configuration
 [X] PUT /api/v1/connection/ipv6/config/
 
 ```ruby
-ipv6.config = {
+config.update('ipv6', {
   :delegations => [
     {
      :prefix   => '2a01:e30:d252:a2a2::/64',
      :next_hop => 'fe80::be30:5bff:feb5:fcc7',
     }
   ]
-}
+})
 ```
 
 #### Connection DynDNS status
 
-```ruby
-ddns = FreeboxApi::Services::DDNS.new(mySession, 'dyndns')
-```
-
 ##### Get the status of a DynDNS service
-[X] GET /api/v1/connection/ddns/{provider}/status/
-
-```ruby
-ddns.status
-```
+[ ] GET /api/v1/connection/ddns/{provider}/status/
 
 #### Connection DynDNS configuration
 
@@ -159,48 +143,44 @@ ddns.status
 [X] GET /api/v1/connection/ddns/{provider}/
 
 ```ruby
-ddns.config
+config.show('ddns/dyndns')
 ```
 
 ##### Set the config of a DynDNS service
 [X] PUT /api/v1/connection/ddns/{provider}/
 
 ```ruby
-ddns.config = {
+config.update('ddns/dyndns', {
   :enabled  => false,
   :user     => 'test',
   :password => 'ssss',
   :hostname => 'ttt',
-}
+})
 ```
 
 ### Lan
 
 #### Lan Config API
 
-```ruby
-lan = FreeboxApi::Services::Lan.new(mySession)
-```
-
 ##### Get the current Lan configuration
 [X] GET /api/v1/lan/config/
 
 ```ruby
-lan.config
+config.show('lan')
 ```
 
 ##### Update the current Lan configuration
 [X] PUT /api/v1/lan/config/
 
 ```ruby
-lan.config = {
+config.update('lan', {
   :mode         => 'router',
   :ip           => '192.168.69.254',
   :name         => 'Freebox de r0ro',
   :name_dns     => 'freebox-de-r0ro',
   :name_mdns    => 'Freebox-de-r0ro',
   :name_netbios => 'Freebox_de_r0ro',
-}
+})
 ```
 
 ### Lan Browser
@@ -279,24 +259,20 @@ freeplugs.reset('F4:CA:E5:1D:46:AE')
 
 #### DHCP Configuration API
 
-```ruby
-dhcp = FreeboxApi::Services::DHCP.new(mySession)
-```
-
 ##### Get the current DHCP configuration
 [X] GET /api/v1/dhcp/config/
 
 ```ruby
-dhcp.config
+config.show('dhcp')
 ```
 
 ##### Update the current DHCP configuration
 [X] PUT /api/v1/dhcp/config/
 
 ```ruby
-dhcp.config = {
+config.update('dhcp', {
   :enabled => false,
-}
+})
 ```
 
 #### DHCP Static Lease API
@@ -351,20 +327,41 @@ static_lease.create({
 #### Ftp config API
 
 ##### Get the current Ftp configuration
-[ ] GET /api/v1/ftp/config/
+[X] GET /api/v1/ftp/config/
+
+```ruby
+config.show('ftp')
+```
 
 ##### Update the FTP configuration
-[ ] PUT /api/v1/ftp/config/
+[X] PUT /api/v1/ftp/config/
+
+```ruby
+config.update('ftp', {
+  :enabled => true
+})
+```
 
 ### NAT
 
 #### Dmz Config API
 
 ##### Get the current Dmz configuration
-[ ] GET /api/v1/fw/dmz/
+[X] GET /api/v1/fw/dmz/
+
+```ruby
+config.show('dmz')
+```
 
 ##### Update the current Dmz configuration
-[ ] PUT /api/v1/fw/dmz/
+[X] PUT /api/v1/fw/dmz/
+
+```ruby
+config.update('dmz', {
+  :enabled => true,
+  :ip      => '192.168.1.42',
+})
+```
 
 ### Port Forwarding
 
@@ -422,10 +419,20 @@ port_forwardings.destroy(3)
 #### UPnP IGD config API
 
 ##### Get the current UPnP IGD configuration
-[ ] GET /api/v1/upnpigd/config/
+[X] GET /api/v1/upnpigd/config/
+
+```ruby
+config.show('upnpigd')
+```
 
 ##### Update the UPnP IGD configuration
-[ ] PUT /api/v1/upnpigd/config/
+[X] PUT /api/v1/upnpigd/config/
+
+```ruby
+config.update('upnpigd', {
+  :enabled => true,
+})
+```
 
 #### UPnP IGD Redirection API
 
@@ -449,28 +456,58 @@ upnp_redir.destroy('0.0.0.0-53644-udp')
 #### LCD config API
 
 ##### Get the current LCD configuration
-[ ] GET /api/v1/lcd/config/
+[X] GET /api/v1/lcd/config/
+
+```ruby
+config.show('lcd')
+```
 
 ##### Update the lcd configuration
-[ ] PUT /api/v1/lcd/config/
+[X] PUT /api/v1/lcd/config/
+
+```ruby
+config.update('lcd', {
+  :brightness => 50,
+})
+```
 
 ### Network Share
 
 #### Samba config API
 
 ##### Get the current Samba configuration
-[ ] GET /api/v1/netshare/samba/
+[X] GET /api/v1/netshare/samba/
+
+```ruby
+config.show('samba')
+```
 
 ##### Update the Samba configuration
-[ ] PUT /api/v1/netshare/samba/
+[X] PUT /api/v1/netshare/samba/
+
+```ruby
+config.update('samba', {
+  :print_share_enabled => false,
+})
+```
 
 #### Afp config API
 
 ##### Get the current Afp configuration
-[ ] GET /api/v1/netshare/afp/
+[X] GET /api/v1/netshare/afp/
+
+```ruby
+config.show('afp')
+```
 
 ##### Update the Afp configuration
-[ ] PUT /api/v1/netshare/afp/
+[X] PUT /api/v1/netshare/afp/
+
+```ruby
+config.update('afp', {
+  :guest_allow => false,
+})
+```
 
 ### UPnP AV
 
