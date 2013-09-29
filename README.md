@@ -5,8 +5,11 @@ WARNING: Work In Progress.
 
 Overview
 --------
+
 This gem contains Freebox OS API bindings for the Ruby language.
-I started working on that to use it with https://github.com/mcanevet/puppet-freebox
+I started working on that to use it with https://github.com/mcanevet/puppet-freebox.
+
+The official documentation is located here: http://dev.freebox.fr/sdk/os/
 
 Building the Freebox object
 ---------------------------
@@ -52,13 +55,7 @@ auth_request = myFreebox.authorize(token_request)
 app_token = auth_request['app_token']
 ```
 
-#### Track authorization progress
-
-```ruby
-puts myFreebox.track_auth(auth_request['track_id'])
-```
-
-### Obtaining a session\_token
+### Creating the session object
 
 ```ruby
 myApp = {
@@ -145,16 +142,37 @@ ipv6.config = {
 
 #### Connection DynDNS status
 
+```ruby
+ddns = FreeboxApi::Services::DDNS.new(mySession, 'dyndns')
+```
+
 ##### Get the status of a DynDNS service
-[ ] GET /api/v1/connection/ddns/{provider}/status/
+[X] GET /api/v1/connection/ddns/{provider}/status/
+
+```ruby
+ddns.status
+```
 
 #### Connection DynDNS configuration
 
 ##### Get the config of a DynDNS service
-[ ] GET /api/v1/connection/ddns/{provider}/
+[X] GET /api/v1/connection/ddns/{provider}/
+
+```ruby
+ddns.config
+```
 
 ##### Set the config of a DynDNS service
-[ ] PUT /api/v1/connection/ddns/{provider}/
+[X] PUT /api/v1/connection/ddns/{provider}/
+
+```ruby
+ddns.config = {
+  :enabled  => false,
+  :user     => 'test',
+  :password => 'ssss',
+  :hostname => 'ttt',
+}
+```
 
 ### Lan
 
