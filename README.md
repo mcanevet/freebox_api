@@ -178,11 +178,30 @@ ddns.config = {
 
 #### Lan Config API
 
+```ruby
+lan = FreeboxApi::Services::Lan.new(mySession)
+```
+
 ##### Get the current Lan configuration
-[ ] GET /api/v1/lan/config/
+[X] GET /api/v1/lan/config/
+
+```ruby
+lan.config
+```
 
 ##### Update the current Lan configuration
-[ ] PUT /api/v1/lan/config/
+[X] PUT /api/v1/lan/config/
+
+```ruby
+lan.config = {
+  :mode         => 'router',
+  :ip           => '192.168.69.254',
+  :name         => 'Freebox de r0ro',
+  :name_dns     => 'freebox-de-r0ro',
+  :name_mdns    => 'Freebox-de-r0ro',
+  :name_netbios => 'Freebox_de_r0ro',
+}
+```
 
 ### Lan Browser
 
@@ -230,14 +249,31 @@ lan_hosts.update({
 
 #### Freeplug API
 
+```ruby
+freeplug_networks = FreeboxApi::Resources::FreeplugNetwork.new(session)
+freeplugs = FreeboxApi::Resources::Freeplug.new(session)
+```
+
 ##### Get the current Freeplugs networks
-[ ] GET /api/v1/freeplug/
+[X] GET /api/v1/freeplug/
+
+```ruby
+freeplug_networks.index
+```
 
 ##### Get a particular Freeplug information
-[ ] GET /api/v1/freeplug/{id}/
+[X] GET /api/v1/freeplug/{id}/
+
+```ruby
+freeplugs.show('F4:CA:E5:1D:46:AE')
+```
 
 ##### Reset a Freeplug
-[ ] POST /api/v1/freeplug/{id}/reset/
+[X] POST /api/v1/freeplug/{id}/reset/
+
+```ruby
+freeplugs.reset('F4:CA:E5:1D:46:AE')
+```
 
 ### DHCP
 
