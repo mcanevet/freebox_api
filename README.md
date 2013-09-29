@@ -240,7 +240,7 @@ static_leases.index
 [X] GET /api/v1/dhcp/static\_lease/{id}
 
 ```ruby
-static_leases.show('00:DE:AD:B0:0B:55)
+static_leases.show('00:DE:AD:B0:0B:55')
 ```
 
 ##### Update DHCP static lease
