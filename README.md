@@ -69,16 +69,14 @@ myApp = {
 mySession = FreeboxApi::Session.new(myApp, myFreebox)
 ```
 
-#### Getting the current challenge value
+or
 
 ```ruby
-myFreebox.challenge
-```
-
-#### Opening a session
-
-```ruby
-mySession.session_token
+mysession = FreeboxApi::Session.new({
+  :app_id      => 'fr.freebox.testapp',
+  :app_version => '0.0.7',
+  :app_token   => 'dyNYgfK0Ya6FWGqq83sBHa7TwzWo+pg4fDFUJHShcjVYzTfaRrZzm93p7OTAfH/0',
+}, FreeboxApi::Freebox.new)
 ```
 
 Reference
@@ -86,18 +84,37 @@ Reference
 
 ### Connection API
 
+```ruby
+connection = FreeboxApi::Services::Connection.new(mySession)
+```
+
 #### Connection status
 
 ##### Get the current Connection status
-[ ] GET /api/v1/connection/
+[X] GET /api/v1/connection/
+
+```ruby
+connection.status
+```
 
 #### Connection configuration
 
 ##### Get the current Connection configuration
-[ ] GET /api/v1/connection/config/
+[X] GET /api/v1/connection/config/
+
+```ruby
+connection.config
+```
 
 ##### Update the Connection configuration
-[ ] PUT /api/v1/connection/config/
+[X] PUT /api/v1/connection/config/
+
+```ruby
+connection.config = {
+  :ping => true,
+  :wol  => false,
+}
+```
 
 #### Connection IPv6 configuration
 
@@ -189,11 +206,25 @@ lan_hosts.update({
 
 #### DHCP Configuration API
 
+```ruby
+dhcp = FreeboxApi::Services::DHCP.new(mySession)
+```
+
 ##### Get the current DHCP configuration
-[ ] GET /api/v1/dhcp/config/
+[X] GET /api/v1/dhcp/config/
+
+```ruby
+dhcp.config
+```
 
 ##### Update the current DHCP configuration
-[ ] PUT /api/v1/dhcp/config/
+[X] PUT /api/v1/dhcp/config/
+
+```ruby
+dhcp.config = {
+  :enabled => false,
+}
+```
 
 #### DHCP Static Lease API
 
