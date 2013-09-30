@@ -9,7 +9,7 @@ module FreeboxApi
       end
 
       def index
-        @session.http_call('get', '/dhcp/static_lease/')
+        @session.http_call('get', '/dhcp/static_lease/') || []
       end
 
       def show(id)

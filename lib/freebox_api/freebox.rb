@@ -1,9 +1,12 @@
 require 'rest_client'
 require 'json'
+require 'logger'
 
 module FreeboxApi
 
   class Freebox < Hash
+
+    attr_reader :logger
 
     def initialize(hash = {})
       self[:freebox_ip] = hash[:freebox_ip] ? hash[:freebox_ip] : 'mafreebox.free.fr'
@@ -14,7 +17,16 @@ module FreeboxApi
       self[:api_version] = discover['api_version']
       self[:api_base_url] = discover['api_base_url']
       self[:device_type] = discover['device_type']
+      self.logger = nil
     end
+
+    def logger=(logger)
+      if logger.nil?
+        logger = Logger.new(STDOUT)
+        logger.level = Logger::WARN
+      end
+        @logger = logger
+      end
 
     def discover
       args = ['get']
@@ -37,7 +49,7 @@ module FreeboxApi
       http_call('get', '/login/')['challenge']
     end
 
-    def http_call(http_method, path, params = {}, session = nil)
+    def http_call(http_method, path, params = nil, session = nil)
       headers = {}
 
       args = [http_method]
@@ -47,8 +59,22 @@ module FreeboxApi
         headers[:params] = params if params
       end
       headers[:'X_Fbx_App_Auth'] = session.session_token if session
+
+      logger.info "#{http_method.upcase} #{path}"
+      logger.debug "Params: #{params.inspect}"
+      logger.debug "Headers: #{headers.inspect}"
       args << headers if headers
-      JSON.parse(@client[build_url(path)].send(*args))['result']
+      process_data(@client[build_url(path)].send(*args))['result']
+    end
+
+    def process_data(response)
+      data = begin
+        JSON.parse(response.body)
+      rescue JSON::ParserError
+        response.body
+      end
+      logger.debug "Returned data: #{data.inspect}"
+      return data
     end
 
   end

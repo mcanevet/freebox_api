@@ -3,6 +3,7 @@ module FreeboxApi
   class Config
 
     def initialize(session)
+      @session = session
     end
 
     def url(service)
@@ -21,11 +22,11 @@ module FreeboxApi
     end
 
     def show(service)
-      @session.http_call('get', url)
+      @session.http_call('get', url(service))
     end
 
     def update(service, params = {})
-      @session.http_call('put', url, params)
+      @session.http_call('put', url(service), params)
     end
 
   end
