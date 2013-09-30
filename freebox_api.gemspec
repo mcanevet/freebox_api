@@ -12,6 +12,7 @@ Gem::Specification.new do |gem|
   gem.name          = 'freebox_api'
   gem.require_paths = ["lib"]
   gem.version       = FreeboxApi::VERSION
+  gem.license       = 'Apache 2.0'
 
   gem.add_dependency 'json'
   gem.add_dependency 'rest-client', '>= 1.6.1'
