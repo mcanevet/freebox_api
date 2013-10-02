@@ -8,7 +8,7 @@ module FreeboxApi
 
     attr_reader :logger
 
-    def initialize(hash = {})
+    def initialize(hash = {}, logger = nil)
       self[:freebox_ip] = hash[:freebox_ip] ? hash[:freebox_ip] : 'mafreebox.free.fr'
       self[:freebox_port] = hash[:freebox_port] ? hash[:freebox_port] : '80'
       @client = RestClient::Resource.new("http://#{self[:freebox_ip]}:#{self[:freebox_port]}")
@@ -17,7 +17,7 @@ module FreeboxApi
       self[:api_version] = discover['api_version']
       self[:api_base_url] = discover['api_base_url']
       self[:device_type] = discover['device_type']
-      self.logger = nil
+      self.logger = logger
     end
 
     def logger=(logger)

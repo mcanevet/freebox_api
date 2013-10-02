@@ -69,7 +69,7 @@ mySession = FreeboxApi::Session.new(myApp, myFreebox)
 or
 
 ```ruby
-mysession = FreeboxApi::Session.new({
+mySession = FreeboxApi::Session.new({
   :app_id      => 'fr.freebox.testapp',
   :app_version => '0.0.7',
   :app_token   => 'dyNYgfK0Ya6FWGqq83sBHa7TwzWo+pg4fDFUJHShcjVYzTfaRrZzm93p7OTAfH/0',
