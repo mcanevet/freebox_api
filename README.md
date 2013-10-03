@@ -79,50 +79,43 @@ mySession = FreeboxApi::Session.new({
 Reference
 ---------
 
-```ruby
-config = FreeboxApi::Config.new(mySession)
-```
+### Configuration
 
-### Connection API
-
-#### Connection status
+#### Connection
 
 ##### Get the current Connection status
-[ ] GET /api/v1/connection/
-
-#### Connection configuration
-
-##### Get the current Connection configuration
-[X] GET /api/v1/connection/config/
 
 ```ruby
-config.show('connection')
+FreeboxApi::Configuration::Connection.getStatus(mySession)
+```
+
+##### Get the current Connection configuration
+
+```ruby
+FreeboxApi::Configuration::Connection.getConfig(mySession)
 ```
 
 ##### Update the Connection configuration
-[X] PUT /api/v1/connection/config/
 
 ```ruby
-config.update('connection', {
+FreeboxApi::Configuration::Connection.updateConfig(mySession, {
   :ping => true,
   :wol  => false,
 })
 ```
 
-#### Connection IPv6 configuration
+##### IPv6
 
-##### Get the current IPv6 Connection configuration
-[X] GET /api/v1/connection/ipv6/config/
+###### Get the current IPv6 Connection configuration
 
 ```ruby
-config.show('ipv6')
+FreeboxApi::Configuration::Connection::IPv6.getConfig(mySession)
 ```
 
-##### Update the IPv6 Connection configuration
-[X] PUT /api/v1/connection/ipv6/config/
+###### Update the IPv6 Connection configuration
 
 ```ruby
-config.update('ipv6', {
+FreeboxApi::Configuration::Connection::IPv6.updateConfig(mySession, {
   :delegations => [
     {
      :prefix   => '2a01:e30:d252:a2a2::/64',
@@ -132,25 +125,39 @@ config.update('ipv6', {
 })
 ```
 
-#### Connection DynDNS status
+##### Connection DynDNS status
 
-##### Get the status of a DynDNS service
+###### Get the status of a DynDNS service
 [ ] GET /api/v1/connection/ddns/{provider}/status/
 
-#### Connection DynDNS configuration
+```ruby
+FreeboxApi::Configuration::Connection::DDNS.getStatus(mySession, 'dyndns')
+```
 
-##### Get the config of a DynDNS service
-[X] GET /api/v1/connection/ddns/{provider}/
+or
 
 ```ruby
-config.show('ddns/dyndns')
+ddns = FreeboxApi::Configuration::Connection::DDNS.new(mySession, 'dyndns')
+ddns.status
+```
+
+###### Get the config of a DynDNS service
+
+```ruby
+FreeboxApi::Configuration::Connection::DDNS.getConfig(mySession, 'dyndns')
+```
+
+or
+
+```ruby
+ddns = FreeboxApi::Configuration::Connection::DDNS.new(mySession, 'dyndns')
+ddns.config
 ```
 
 ##### Set the config of a DynDNS service
-[X] PUT /api/v1/connection/ddns/{provider}/
 
 ```ruby
-config.update('ddns/dyndns', {
+FreeboxApi::Configuration::Connection::DDNS.updateConfig(mySession, 'dyndns', {
   :enabled  => false,
   :user     => 'test',
   :password => 'ssss',
@@ -158,22 +165,30 @@ config.update('ddns/dyndns', {
 })
 ```
 
-### Lan
-
-#### Lan Config API
-
-##### Get the current Lan configuration
-[X] GET /api/v1/lan/config/
+or
 
 ```ruby
-config.show('lan')
+ddns = FreeboxApi::Configuration::Connection::DDNS.new(mySession, 'dyndns')
+ddns.config = {
+  :enabled  => false,
+  :user     => 'test',
+  :password => 'ssss',
+  :hostname => 'ttt',
+}
+```
+
+#### Lan
+
+##### Get the current Lan configuration
+
+```ruby
+FreeboxApi::Configuration::Lan.getConfig(mySession)
 ```
 
 ##### Update the current Lan configuration
-[X] PUT /api/v1/lan/config/
 
 ```ruby
-config.update('lan', {
+FreeboxApi::Configuration::Lan.updateConfig({
   :mode         => 'router',
   :ip           => '192.168.69.254',
   :name         => 'Freebox de r0ro',
@@ -183,38 +198,52 @@ config.update('lan', {
 })
 ```
 
-### Lan Browser
+##### Lan Browser
 
-#### Lan Browser API
-
-##### Getting the list of browsable LAN interfaces
-[X] GET /api/v1/lan/browser/interfaces/
+###### Getting the list of browsable LAN interfaces
 
 ```ruby
-interfaces = FreeboxApi::Resources::Interface.new(mySession)
-interfaces.index
+FreeboxApi::Configuration::Lan::Browser.interfaces(mySession)
 ```
 
 ##### Getting the list of hosts on a given interface
-[X] GET /api/v1/lan/browser/{interface}/
 
 ```ruby
-lan_hosts = FreeboxApi::Resources::LanHost.new(mySession)
-lan_hosts.index
+FreeboxApi::Configuration::Lan::Browser::Interface.getLanHosts(mySession, 'pub')
+```
+
+```ruby
+interface = FreeboxApi::Configuration::Lan::Browser::Interface.new(mySession, 'pub')
+interface.lan_hosts
 ```
 
 ##### Getting an host information
-[X] GET /api/v1/lan/browser/{interface}/{hostid}/
 
 ```ruby
-lan_hosts.show('ether-00:24:d4:7e:00:4c')
+FreeboxApi::Configuration::Lan::Browser::LanHost.show(mySession, 'pub', 'ether-00:24:d4:7e:00:4c')
+```
+
+or
+
+```ruby
+lan_host = FreeboxApi::Configuration::Lan::Browser::LanHost.new(mySession, 'pub', 'ether-00:24:d4:7e:00:4c')
+lan_host.show
 ```
 
 ##### Updating an host information
-[X] PUT /api/v1/lan/browser/{interface}/{hostid}/
 
 ```ruby
-lan_hosts.update({
+FreeboxApi::Configuration::Lan::Browser::LanHost.update(mySession, 'pub', 'ether-00:24:d4:7e:00:4c', {
+  :id           => 'ether-00:24:d4:7e:00:4c',
+  :primary_name => 'Freebox Tv',
+})
+```
+
+or
+
+```ruby
+lan_host = FreeboxApi::Configuration::Lan::Browser::LanHost.new(mySession, 'pub', 'ether-00:24:d4:7e:00:4c')
+lan_host.update({
   :id           => 'ether-00:24:d4:7e:00:4c',
   :primary_name => 'Freebox Tv',
 })
@@ -223,96 +252,145 @@ lan_hosts.update({
 #### Wake on LAN
 
 ##### Send Wake ok Lan packet to an host
-[ ] POST /api/v1/lan/wol/{interface}/
-
-### Freeplug
-
-#### Freeplug API
 
 ```ruby
-freeplug_networks = FreeboxApi::Resources::FreeplugNetwork.new(session)
-freeplugs = FreeboxApi::Resources::Freeplug.new(session)
+FreeboxApi::Configuration::Lan::Browser::Interface.wol(mySession, 'pub', {
+  :mac      => '00:24:d4:7e:00:4c',
+  :password => '',
+}
 ```
 
-##### Get the current Freeplugs networks
-[X] GET /api/v1/freeplug/
+or
 
 ```ruby
-freeplug_networks.index
+interface = FreeboxApi::Configuration::Lan::Browser::Interface.new(mySession, 'pub')
+interface.wol({
+  :mac      => '00:24:d4:7e:00:4c',
+  :password => '',
+}
+```
+
+or
+
+```ruby
+lan_host = FreeboxApi::Configuration::Lan::Browser::LanHost.new(mySession, 'pub', 'ether-00:24:d4:7e:00:4c')
+lan_host.wol({ :password => '' })
+```
+
+#### Freeplug
+
+##### Get the current Freeplugs networks
+
+```ruby
+FreeboxApi::Configuration::Freeplug.network(mySession)
 ```
 
 ##### Get a particular Freeplug information
-[X] GET /api/v1/freeplug/{id}/
 
 ```ruby
-freeplugs.show('F4:CA:E5:1D:46:AE')
+FreeboxApi::Configuration::Freeplug.show(mySession, 'F4:CA:E5:1D:46:AE')
+```
+
+or
+
+```ruby
+freeplug = FreeboxApi::Configuration::Freeplug.new(mySession, 'F4:CA:E5:1D:46:AE')
+freeplug.show
 ```
 
 ##### Reset a Freeplug
-[X] POST /api/v1/freeplug/{id}/reset/
 
 ```ruby
-freeplugs.reset('F4:CA:E5:1D:46:AE')
+FreeboxApi::Configuration::Freeplug.reset(mySession, 'F4:CA:E5:1D:46:AE')
 ```
 
-### DHCP
-
-#### DHCP Configuration API
-
-##### Get the current DHCP configuration
-[X] GET /api/v1/dhcp/config/
+or
 
 ```ruby
-config.show('dhcp')
+freeplug = FreeboxApi::Configuration::Freeplug.new(mySession, 'F4:CA:E5:1D:46:AE')
+freeplug.reset
+```
+
+#### DHCP
+
+##### Get the current DHCP configuration
+
+```ruby
+FreeboxApi::Configuration::Dhcp.getConfig(mySession)
 ```
 
 ##### Update the current DHCP configuration
-[X] PUT /api/v1/dhcp/config/
 
 ```ruby
-config.update('dhcp', {
+FreeboxApi::Configuration::Dhcp.updateConfig(mySession, {
   :enabled => false,
 })
 ```
 
-#### DHCP Static Lease API
-
 ##### Get the list of DHCP static leases
-[X] GET /api/v1/dhcp/static\_lease/
 
 ```ruby
-static_leases = FreeboxApi::Resources::StaticLease.new(mySession)
-static_leases.index
+FreeboxApi::Configuration::Dhcp.static_leases(mySession)
 ```
 
 ##### Get a given DHCP static lease
-[X] GET /api/v1/dhcp/static\_lease/{id}
 
 ```ruby
-static_leases.show('00:DE:AD:B0:0B:55')
+FreeboxApi::Configuration::Dhcp::StaticLease.show(mySession, '00:DE:AD:B0:0B:55')
+```
+
+or
+
+```ruby
+static_lease = FreeboxApi::Configuration::Dhcp::StaticLease.new(mySession, '00:DE:AD:B0:0B:55')
+static_lease.show
 ```
 
 ##### Update DHCP static lease
-[X] PUT /api/v1/dhcp/static\_lease/{id}
 
 ```ruby
-static_leases.update({
+FreeboxApi::Configuration::Dhcp::StaticLease.update(mySession, {
+  :id      => '00:DE:AD:B0:0B:55',
+  :comment => 'Mon PC',
+})
+```
+
+or
+
+```ruby
+static_lease = FreeboxApi::Configuration::Dhcp::StaticLease.new(mySession, '00:DE:AD:B0:0B:55')
+static_lease.update({
   :id      => '00:DE:AD:B0:0B:55',
   :comment => 'Mon PC',
 })
 ```
 
 ##### Delete a DHCP static lease
-[X] DELETE /api/v1/dhcp/static\_lease/{id}
 
 ```ruby
-static_lease.destroy('00:DE:AD:B0:0B:55')
+FreeboxApi::Configuration::Dhcp::StaticLease.delete(mySession, '00:DE:AD:B0:0B:55')
+```
+
+or
+
+```ruby
+static_lease = FreeboxApi::Configuration::Dhcp::StaticLease.new(mySession, '00:DE:AD:B0:0B:55')
+static_lease.delete
 ```
 
 ##### Add a DHCP static lease
-[X] POST /api/v1/dhcp/static\_lease/
 
 ```ruby
+FreeboxApi::Configuration::Dhcp::StaticLease.create(mySession, {
+  :ip  => '192.168.1.222',
+  :mac => '00:00:00:11:11:11',
+})
+```
+
+or
+
+```ruby
+static_lease = FreeboxApi::Configuration::Dhcp::StaticLease.new(mySession, '00:00:00:11:11:11')
 static_lease.create({
   :ip  => '192.168.1.222',
   :mac => '00:00:00:11:11:11',
@@ -320,7 +398,15 @@ static_lease.create({
 ```
 
 ##### Get the list of DHCP dynamic leases
-[ ] GET /api/v1/dhcp/dynamic\_lease/
+
+```ruby
+FreeboxApi::Configuration::Dhcp.dynamic_leases(mySession)
+```
+
+
+OLD API
+=======
+
 
 ### Ftp
 

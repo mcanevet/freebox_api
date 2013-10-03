@@ -2,15 +2,15 @@ module FreeboxApi
 
   module Configuration
 
-    def self.freeplugs(session)
-      session.http_call('get', '/freeplug/')	    
-    end
-
     class Freeplug
 
       def initialize(session, id)
         @session = session
 	@id = id
+      end
+
+      def self.network(session)
+        session.http_call('get', '/freeplug/')
       end
 
       def self.show(session, id)

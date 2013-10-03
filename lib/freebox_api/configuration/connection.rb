@@ -20,11 +20,11 @@ module FreeboxApi
 
         def self.getConfig(session)
           session.http_call('get', '/connection/ipv6/config/')
-	end
+        end
 
-	def self.updateConfig(session, value)
+        def self.updateConfig(session, value)
           session.http_call('put', '/connection/ipv6/config/', value)
-	end
+        end
 
       end
 
@@ -33,32 +33,32 @@ module FreeboxApi
         def initialize(session, provider)
           # TODO: validate that provider matches (ovh|dyndns|noip)
           @session = session
-	  @provider = provider
-	end
+          @provider = provider
+        end
 
-	def self.getStatus(session, provider)
+        def self.getStatus(session, provider)
           session.http_call('get', "/connection/ddns/#{provider}/status/")
-	end
+        end
 
-	def status
+        def status
           self.class.getStatus(@session, @provider)
-	end
+        end
 
-	def self.getConfig(session, provider)
+        def self.getConfig(session, provider)
           session.http_call('get', "/connection/ddns/#{provider}/")
-	end
+        end
 
-	def config
-	  self.class.getConfig(@session, @provider)
-	end
+        def config
+          self.class.getConfig(@session, @provider)
+        end
 
-	def self.updateConfig(session, provider, value)
+        def self.updateConfig(session, provider, value)
           @session.http_call('put', "/connection/ddns/#{provider}/", value)
-	end
+        end
 
-	def config=(value)
-	  self.class.updateConfig(@session, @provider, value)
-	end
+        def config=(value)
+          self.class.updateConfig(@session, @provider, value)
+        end
 
       end
 
