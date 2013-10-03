@@ -36,16 +36,28 @@ module FreeboxApi
 	  @provider = provider
 	end
 
+	def self.getStatus(session, provider)
+          session.http_call('get', "/connection/ddns/#{provider}/status/")
+	end
+
 	def status
-          @session.http_call('get', "/connection/ddns/#{@provider}/status/")
+          self.class.getStatus(@session, @provider)
+	end
+
+	def self.getConfig(session, provider)
+          session.http_call('get', "/connection/ddns/#{provider}/")
 	end
 
 	def config
-          @session.http_call('get', "/connection/ddns/#{@provider}/")
+	  self.class.getConfig(@session, @provider)
+	end
+
+	def self.updateConfig(session, provider, value)
+          @session.http_call('put', "/connection/ddns/#{provider}/", value)
 	end
 
 	def config=(value)
-          @session.http_call('put', "/connection/ddns/#{@provider}/", value)
+	  self.class.updateConfig(@session, @provider, value)
 	end
 
       end

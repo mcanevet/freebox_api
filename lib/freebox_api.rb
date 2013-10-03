@@ -2,7 +2,13 @@ module FreeboxApi
 end
 
 require 'freebox_api/config'
-require 'freebox_api/connection'
+
+require 'freebox_api/configuration'
+require 'freebox_api/configuration/connection'
+require 'freebox_api/configuration/dhcp'
+require 'freebox_api/configuration/freeplug'
+require 'freebox_api/configuration/lan'
+
 require 'freebox_api/freebox'
 require 'freebox_api/session'
 require 'freebox_api/version'
