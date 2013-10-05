@@ -53,7 +53,7 @@ module FreeboxApi
         end
 
         def self.updateConfig(session, provider, value)
-          @session.http_call('put', "/connection/ddns/#{provider}/", value)
+          session.http_call('put', "/connection/ddns/#{provider}/", value)
         end
 
         def config=(value)
