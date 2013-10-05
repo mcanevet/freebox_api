@@ -128,7 +128,6 @@ FreeboxApi::Configuration::Connection::IPv6.updateConfig(mySession, {
 ##### Connection DynDNS status
 
 ###### Get the status of a DynDNS service
-[ ] GET /api/v1/connection/ddns/{provider}/status/
 
 ```ruby
 FreeboxApi::Configuration::Connection::DDNS.getStatus(mySession, 'dyndns')
