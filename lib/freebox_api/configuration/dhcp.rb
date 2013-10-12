@@ -9,7 +9,7 @@ module FreeboxApi
       end
 
       def self.updateConfig(session, value)
-        session.http_call('put', '/dhcp/config/')
+        session.http_call('put', '/dhcp/config/', value)
       end
 
       def self.static_leases(session)
