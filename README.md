@@ -401,3 +401,19 @@ static_lease.create({
 ```ruby
 FreeboxApi::Configuration::Dhcp.dynamic_leases(mySession)
 ```
+
+#### FTP
+
+##### Get the current FTP configuration
+
+```ruby
+FreeboxApi::Configuration::Ftp.getConfig(mySession)
+```
+
+##### Update the current FTP configuration
+
+```ruby
+FreeboxApi::Configuration::Ftp.updateConfig(mySession, {
+  :enabled => true,
+})
+```
