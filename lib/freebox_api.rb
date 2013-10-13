@@ -7,6 +7,7 @@ require 'freebox_api/configuration/dhcp'
 require 'freebox_api/configuration/freeplug'
 require 'freebox_api/configuration/ftp'
 require 'freebox_api/configuration/lan'
+require 'freebox_api/configuration/nat'
 
 require 'freebox_api/freebox'
 require 'freebox_api/session'

@@ -417,3 +417,65 @@ FreeboxApi::Configuration::Ftp.updateConfig(mySession, {
   :enabled => true,
 })
 ```
+
+#### NAT
+
+##### DMZ
+
+###### Get the current Dmz configuration
+
+```ruby
+FreeboxApi::Configuration::Nat::Dmz.getConfig(mySession)
+```
+
+###### Update the current Dmz configuration
+
+```ruby
+FreeboxApi::Configuration::Nat::Dmz.updateConfig(mySession, {
+  :enabled => true,
+  :ip      => '192.168.1.42',
+})
+```
+
+##### Port Forwarding
+
+###### Getting the list of port forwarding
+
+```ruby
+FreeboxApi::Configuration::Nat.port_forwardings(mySession)
+```
+
+###### Getting a specific port forwarding
+
+```ruby
+FreeboxApi::Configuration::Nat::PortForwarding.show(mySession, 1)
+```
+
+###### Updating a port forwarding
+
+```ruby
+FreeboxApi::Configuration::Nat::PortForwarding.update(mySession, 1, {
+  :enabled => false,
+})
+```
+
+###### Add a port forwarding
+
+```ruby
+FreeboxApi::Configuration::Nat::PortForwarding.create(mySession, {
+  :enabled        => true,
+  :comment        => 'test',
+  :lan_port       => 4242,
+  :wan_port_end   => 4242,
+  :wan_port_start => 4242,
+  :lan_ip         => '192.168.1.42',
+  :ip_proto       => 'tcp',
+  :src_ip         => '0.0.0.0',
+})
+```
+
+###### Delete a port forwarding
+
+```ruby
+FreeboxApi::Configuration::Nat::PortForwarding.delete(mySession, 3)
+```
